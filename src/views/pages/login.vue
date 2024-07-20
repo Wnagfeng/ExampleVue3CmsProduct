@@ -39,25 +39,29 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue';
+import { ref, reactive, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { ElMessage } from 'element-plus';
 import { User, Lock } from '@element-plus/icons-vue';
 import type { FormInstance, FormRules } from 'element-plus';
+import { storeToRefs } from 'pinia'
+import { useLoginStore } from '@/stores/login'
+import { encrypt, decrypt } from '@/utils/jsencrypt.ts'
+import { localCache } from '@/utils/Cache.ts'
+
+const loginStore = useLoginStore()
 
 interface LoginInfo {
     username: string;
     password: string;
 }
 
-const lgStr = localStorage.getItem('login-param');
-const defParam = lgStr ? JSON.parse(lgStr) : null;
-const checked = ref(lgStr ? true : false);
+const checked = ref(false);
 
 const router = useRouter();
 const param = reactive<LoginInfo>({
-    username: defParam ? defParam.username : '',
-    password: defParam ? defParam.password : '',
+    username: '',
+    password: '',
 });
 
 const rules: FormRules = {
@@ -72,12 +76,35 @@ const rules: FormRules = {
 };
 
 const login = ref<FormInstance>();
-const submitForm = (formEl: FormInstance | undefined) => {
-    if (!formEl) return;
-
+const submitForm = () => {
+    const userdata = {
+        username: param.username,
+        password: encrypt(param.password),
+    }
+    if (checked.value) {
+        localStorage.setItem('login-param', JSON.stringify(userdata));
+    }
+    if (param.username === '' || param.password === '') {
+        ElMessage({
+            showClose: true,
+            message: '用户名或密码不能为空',
+            type: 'error',
+        })
+        return;
+    }
+    loginStore.loginAccountAction(userdata)
 };
 
-
+// 解密存储的密码并设置到表单中
+onMounted(() => {
+    const lgStr = localStorage.getItem('login-param');
+    if (lgStr) {
+        const userInfo = JSON.parse(lgStr);
+        param.username = userInfo.username;
+        param.password = decrypt(userInfo.password) || ''; // 解密密码
+        checked.value = true;
+    }
+});
 </script>
 
 <style scoped>

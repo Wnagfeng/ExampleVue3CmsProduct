@@ -15,15 +15,6 @@
                         </template>
                     </el-input>
                 </el-form-item>
-                <el-form-item prop="email">
-                    <el-input v-model="param.email" placeholder="邮箱">
-                        <template #prepend>
-                            <el-icon>
-                                <Message />
-                            </el-icon>
-                        </template>
-                    </el-input>
-                </el-form-item>
                 <el-form-item prop="password">
                     <el-input type="password" placeholder="密码" v-model="param.password"
                         @keyup.enter="submitForm(register)">

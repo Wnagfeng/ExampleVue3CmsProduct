@@ -1,0 +1,28 @@
+export const LOGIN_TOKEN = 'login/token'
+export const USER_INFO = 'user/info'
+export const PASSWORD_KEY = "CoderJoon"
+// 密钥生成
+// 证书密码：CoderJoon
+// http://web.chacuo.net/netrsakeypair
+// 私钥：
+export const PUBLIC_KEY = `
+-----BEGIN PUBLIC KEY-----
+MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBANaBQ2Pk9N0Fafo2x4RPk9/PR3zRRSpV
+j+Va1g5asM8xbbMEDf+EtkLheNTBEUQGApIBR4lcRXSCPPFNiTT5vAMCAwEAAQ==
+-----END PUBLIC KEY-----
+
+`
+
+export const PRIVATE_KEY = `
+ -----BEGIN PRIVATE KEY-----
+MIIBVQIBADANBgkqhkiG9w0BAQEFAASCAT8wggE7AgEAAkEA1oFDY+T03QVp+jbH
+hE+T389HfNFFKlWP5VrWDlqwzzFtswQN/4S2QuF41MERRAYCkgFHiVxFdII88U2J
+NPm8AwIDAQABAkBNGlej35eYnqqSUwBycbxAlZwnpH1NE0ZO9dC9hiHJx10ItO2a
+/3yPQv6bmsXHBNNFm2I6/WRPK1bCPKPxWoopAiEA8wGUYPlCrKSLWDDQKMrcs+qN
+B6Fpa+4qdBZrS9UCxP0CIQDh+Yp4nMpLyr6xlNTYPWgYWIHYqbzY2Ev2ODUZw07U
+/wIhAIB7tlMrl5gmi9J+RKE82UJ7YkPFkTLSwzmL3QFER+mVAiBC/8C9iAc2t5MY
+hb8hqfs+FKfS/GiAhojnJL0huVWbMwIhANWUZkhJQl/NSfR7BayqVUt/0Oxam+JI
+yFJPzSf6mbso
+-----END PRIVATE KEY-----
+
+`
