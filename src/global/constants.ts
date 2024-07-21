@@ -1,5 +1,5 @@
 export const LOGIN_TOKEN = 'login/token'
-export const USER_INFO = 'user/info'
+export const USER_INFO = 'login-param'
 export const PASSWORD_KEY = "CoderJoon"
 // 密钥生成
 // 证书密码：CoderJoon

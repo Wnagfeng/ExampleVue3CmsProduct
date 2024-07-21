@@ -16,8 +16,7 @@
                     </el-input>
                 </el-form-item>
                 <el-form-item prop="password">
-                    <el-input type="password" placeholder="密码" v-model="param.password"
-                        @keyup.enter="submitForm(register)">
+                    <el-input type="password" placeholder="密码" v-model="param.password" @keyup.enter="submitForm()">
                         <template #prepend>
                             <el-icon>
                                 <Lock />
@@ -25,9 +24,9 @@
                         </template>
                     </el-input>
                 </el-form-item>
-                <el-button class="login-btn" type="primary" size="large" @click="submitForm(register)">注册</el-button>
+                <el-button class="login-btn" type="primary" size="large" @click="submitForm()">注册</el-button>
                 <p class="login-text">
-                    已有账号，<el-link type="primary" @click="$router.push('/login')">立即登录</el-link>
+                    已有账号？<el-link type="primary" @click="$router.push('/login')">立即登录</el-link>
                 </p>
             </el-form>
         </div>
@@ -36,16 +35,15 @@
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue';
-import { useRouter } from 'vue-router';
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus';
-import { Register } from '@/types/user';
-import { User, Lock, Message } from '@element-plus/icons-vue';
+import { User, Lock } from '@element-plus/icons-vue';
+import { useLoginStore } from '@/stores/login'
+import type { IAccount } from '@/types/account.type'
+const loginStore = useLoginStore()
 
-const router = useRouter();
-const param = reactive<Register>({
+const param = reactive<IAccount>({
     username: '',
     password: '',
-    email: '',
 });
 
 const rules: FormRules = {
@@ -60,16 +58,16 @@ const rules: FormRules = {
     email: [{ required: true, message: '请输入邮箱', trigger: 'blur' }],
 };
 const register = ref<FormInstance>();
-const submitForm = (formEl: FormInstance | undefined) => {
-    if (!formEl) return;
-    formEl.validate((valid: boolean) => {
-        if (valid) {
-            ElMessage.success('注册成功，请登录');
-            router.push('/login');
-        } else {
-            return false;
-        }
-    });
+const submitForm = () => {
+    if (param.username === '' || param.password === '') {
+        ElMessage({
+            showClose: true,
+            message: '用户名或密码不能为空',
+            type: 'error',
+        })
+        return;
+    }
+    loginStore.registerAccountAction(param)
 };
 </script>
 

@@ -16,8 +16,7 @@
                     </el-input>
                 </el-form-item>
                 <el-form-item prop="password">
-                    <el-input type="password" placeholder="密码" v-model="param.password"
-                        @keyup.enter="submitForm(login)">
+                    <el-input type="password" placeholder="密码" v-model="param.password" @keyup.enter="submitForm()">
                         <template #prepend>
                             <el-icon>
                                 <Lock />
@@ -29,7 +28,7 @@
                     <el-checkbox class="pwd-checkbox" v-model="checked" label="记住密码" />
                     <el-link type="primary" @click="$router.push('/reset-pwd')">忘记密码</el-link>
                 </div>
-                <el-button class="login-btn" type="primary" size="large" @click="submitForm(login)">登录</el-button>
+                <el-button class="login-btn" type="primary" size="large" @click="submitForm()">登录</el-button>
                 <p class="login-text">
                     没有账号？<el-link type="primary" @click="$router.push('/register')">立即注册</el-link>
                 </p>
@@ -40,30 +39,20 @@
 
 <script setup lang="ts">
 import { ref, reactive, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
 import { ElMessage } from 'element-plus';
 import { User, Lock } from '@element-plus/icons-vue';
 import type { FormInstance, FormRules } from 'element-plus';
-import { storeToRefs } from 'pinia'
 import { useLoginStore } from '@/stores/login'
-import { encrypt, decrypt } from '@/utils/jsencrypt.ts'
-import { localCache } from '@/utils/Cache.ts'
-
+import { encrypt, decrypt } from '@/utils/jsencrypt'
+import { USER_INFO } from '@/global/constants'
+import type { IAccount } from '@/types/account.type'
 const loginStore = useLoginStore()
 
-interface LoginInfo {
-    username: string;
-    password: string;
-}
-
 const checked = ref(false);
-
-const router = useRouter();
-const param = reactive<LoginInfo>({
+const param = reactive<IAccount>({
     username: '',
     password: '',
 });
-
 const rules: FormRules = {
     username: [
         {
@@ -74,15 +63,14 @@ const rules: FormRules = {
     ],
     password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
 };
-
 const login = ref<FormInstance>();
 const submitForm = () => {
     const userdata = {
         username: param.username,
         password: encrypt(param.password),
-    }
+    } as IAccount
     if (checked.value) {
-        localStorage.setItem('login-param', JSON.stringify(userdata));
+        localStorage.setItem(USER_INFO, JSON.stringify(userdata));
     }
     if (param.username === '' || param.password === '') {
         ElMessage({
@@ -97,7 +85,7 @@ const submitForm = () => {
 
 // 解密存储的密码并设置到表单中
 onMounted(() => {
-    const lgStr = localStorage.getItem('login-param');
+    const lgStr = localStorage.getItem(USER_INFO);
     if (lgStr) {
         const userInfo = JSON.parse(lgStr);
         param.username = userInfo.username;

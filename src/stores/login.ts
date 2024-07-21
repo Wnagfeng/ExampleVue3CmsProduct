@@ -1,26 +1,19 @@
 import { defineStore } from 'pinia'
-import { localCache } from '@/utils/Cache'
-import { LOGIN_TOKEN, USER_INFO } from '@/global/constants'
-import { accountLogin } from "@/service/login/login"
+import { LOGIN_TOKEN } from '@/global/constants'
+import { accountLogin, accountRegister } from "@/service/login/login"
 import { ElMessage } from 'element-plus';
+import type { IAccount } from '@/types/account.type'
+import router from '@/router/index'
 import 'element-plus/es/components/message/style/css'
 interface Istate {
     token: string
-    userinfo: any
 }
-interface IAccount {
-    username: string
-    password: string
-}
-
-
 export const useLoginStore = defineStore('login', {
     state: (): Istate => ({
         token: localStorage.getItem(LOGIN_TOKEN) ?? '',
-        userinfo: localCache.getCache(USER_INFO) ?? {},
     }),
-
     actions: {
+        // 登录
         async loginAccountAction(account: IAccount) {
             console.log("接受的登录数据为：", account)
             const res = await accountLogin(account)
@@ -30,14 +23,10 @@ export const useLoginStore = defineStore('login', {
                     message: '登录成功',
                     type: 'success',
                 })
-                const { token, UserName, UserID } = res.data
+                const { token } = res.data
                 this.token = token
-                const userinfo = {
-                    UserName,
-                    UserID,
-                }
-                this.userinfo = userinfo
-
+                localStorage.setItem(LOGIN_TOKEN, token)
+                router.push('/main') // 跳转到 main 页面
             }
             else {
                 ElMessage({
@@ -49,5 +38,23 @@ export const useLoginStore = defineStore('login', {
 
 
         },
+        // 注册
+        async registerAccountAction(account: IAccount) {
+            const res = await accountRegister(account)
+            if (res.code === 200) {
+                ElMessage({
+                    showClose: true,
+                    message: '注册成功',
+                    type: 'success',
+                })
+            }
+            else {
+                ElMessage({
+                    showClose: true,
+                    message: `${res.message}`,
+                    type: 'error',
+                })
+            }
+        }
     }
 })
