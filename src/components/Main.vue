@@ -1,11 +1,13 @@
 <template>
-  <div class="MainWrapper">111</div>
+  <div class="MainWrapper">
+    <router-view></router-view>
+  </div>
 </template>
 
 <script setup lang="ts"></script>
 
 <style scoped lang="less">
 .MainWrapper {
-  background-color: royalblue;
+  // background-color: royalblue;
 }
 </style>

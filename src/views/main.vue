@@ -38,8 +38,8 @@ onMounted(async () => {
         })
         router.push("/login")
     }
-    console.log(loadLocalRouters())
-    console.log("mounted");
+    // console.log(loadLocalRouters())
+    // console.log("mounted");
 });
 </script>
 

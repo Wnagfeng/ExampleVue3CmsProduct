@@ -5,8 +5,8 @@ import { ElMessage } from 'element-plus';
 
 const routes = [
   {
-    path: "/",
-    redirect: '/main'
+    path: "/main",
+    redirect: '/main/analysis/dashboard'
 
   },
   {
@@ -14,7 +14,41 @@ const routes = [
     name: "main",
     component: main,
     children: [
-
+      {
+        path: '/main/analysis/dashboard',
+        name: 'dashboard',
+        component: () => import("@/views/analysis/dashboard/dashboard.vue"),
+      },
+      {
+        path: '/main/system/user',
+        name: 'user',
+        component: () => import("@/views/system/user/user.vue"),
+      },
+      {
+        path: '/main/system/role',
+        name: 'role',
+        component: () => import("@/views/system/role/role.vue"),
+      },
+      {
+        path: '/main/system/menu',
+        name: 'menu',
+        component: () => import("@/views/system/menu/menu.vue"),
+      },
+      {
+        path: '/main/system/department',
+        name: 'department',
+        component: () => import("@/views/system/department/department.vue"),
+      },
+      {
+        path: '/main/product/category',
+        name: 'category',
+        component: () => import("@/views/product/category/category.vue"),
+      },
+      {
+        path: '/main/product/goods',
+        name: 'goods',
+        component: () => import("@/views/product/goods/goods.vue"),
+      }
     ]
   },
   {
@@ -52,7 +86,6 @@ const router = createRouter({
 router.beforeEach(async (to) => {
   // 只有登录成功(token), 才能真正进入到main页面
   const token = localStorage.getItem(LOGIN_TOKEN)
-  console.log(to)
   if (to.path.startsWith('/main') && !token) {
     ElMessage({
       showClose: true,
@@ -61,10 +94,6 @@ router.beforeEach(async (to) => {
     })
     return '/login'
   }
-
-  // if (to.path === '/main') {
-  //   return fristRouterUrl?.url
-  // }
 })
 
 export default router;

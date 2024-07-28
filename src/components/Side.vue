@@ -8,41 +8,90 @@
     </div>
     <el-menu :collapse="isFold" :default-active="'1-1'" :default-openeds="['1']" text-color="#b7bdc3"
       active-text-color="#fff" background-color="#001529">
-      <el-sub-menu class="el-sub-menu" index="1">
-        <template #title>
-          <span class="elitemtitle">系统总览</span>
-        </template>
-        <el-menu-item index="1-1">商品统计</el-menu-item>
-      </el-sub-menu>
-      <el-sub-menu class="el-sub-menu" index="2">
-        <template #title>
-          <span class="elitemtitle">系统管理</span>
-        </template>
-        <el-menu-item index="2-1">用户管理</el-menu-item>
-        <el-menu-item index="2-2">部门管理</el-menu-item>
-        <el-menu-item index="2-3">菜单管理</el-menu-item>
-        <el-menu-item index="2-4">角色管理</el-menu-item>
-      </el-sub-menu>
-      <el-sub-menu class="el-sub-menu" index="3">
-        <template #title>
-          <span class="elitemtitle">商品管理</span>
-        </template>
-        <el-menu-item index="3-1">商品类别</el-menu-item>
-        <el-menu-item index="3-2">商品信息</el-menu-item>
-      </el-sub-menu>
+      <template v-for="(item, index) in MenuList" :key="item.id">
+        <el-sub-menu class="el-sub-menu" :index="item.id + ''">
+          <template #title>
+            <span class="elitemtitle">{{ item.title }}</span>
+          </template>
+          <template v-for="(iten, indey) in item.menu" :key="iten.id">
+            <el-menu-item :index="item.id + '-' + iten.id + ''" @click="topathClick(iten)">{{ iten.name
+              }}</el-menu-item>
+          </template>
+        </el-sub-menu>
+      </template>
     </el-menu>
   </div>
 </template>
 
 <script setup lang="ts">
+// import menu from "@/router/Main/system/menu/menu";
 import { Menu as IconMenu, Message, Setting } from "@element-plus/icons-vue";
+import { useRouter } from "vue-router";
+const router = useRouter()
 const props = defineProps({
   isFold: {
     type: Boolean,
     default: true
   }
 })
-
+const MenuList = [
+  {
+    title: "系统总览",
+    id: 1,
+    menu: [
+      {
+        id: 1,
+        name: "商品统计",
+        path: "/main/analysis/dashboard",
+      }
+    ]
+  },
+  {
+    title: "系统管理",
+    id: 2,
+    menu: [
+      {
+        id: 1,
+        name: "用户管理",
+        path: "/main/system/user",
+      },
+      {
+        id: 2,
+        name: "角色管理",
+        path: "/main/system/role",
+      },
+      {
+        id: 3,
+        name: "菜单管理",
+        path: "/main/system/menu",
+      },
+      {
+        id: 4,
+        name: "部门管理",
+        path: "/main/system/department",
+      }
+    ]
+  },
+  {
+    title: "商品管理",
+    id: 3,
+    menu: [
+      {
+        id: 1,
+        name: "商品类别",
+        path: "/main/product/category",
+      },
+      {
+        id: 2,
+        name: "商品信息",
+        path: "/main/product/goods",
+      }
+    ]
+  },
+]
+const topathClick = (iten: any) => {
+  router.push(iten.path)
+}
 </script>
 
 <style scoped lang="less">
