@@ -10,6 +10,11 @@ const routes = [
 
   },
   {
+    path: "/",
+    redirect: '/main/analysis/dashboard'
+
+  },
+  {
     path: "/main",
     name: "main",
     component: main,

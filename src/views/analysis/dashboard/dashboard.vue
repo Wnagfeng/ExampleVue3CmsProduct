@@ -111,7 +111,7 @@ const barData = computed(() => {
 
 <style scoped lang="less">
 .header {
-    min-height: 138px;
+    min-height: 130.05px;
 }
 
 .middle,

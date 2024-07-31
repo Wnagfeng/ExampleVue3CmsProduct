@@ -98,6 +98,7 @@
                     </el-form-item>
                     <el-form-item label="选择角色" prop="roleId">
                         <el-select v-model="formData.roleid" placeholder="请选择角色" style="width: 100%">
+                            <!-- 从store中拿到数据放到这里 -->
                             <template v-for="item in RoleList">
                                 <el-option :label="item.name" :value="item.id" />
                             </template>
@@ -138,7 +139,7 @@ import 'element-plus/es/components/message/style/css'
 import { Top, Bottom, Tickets, EditPen } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
 import { formatUtcString } from '@/utils/Fomart-Data-Time'
-import { encrypt } from '@/utils/jsencrypt'
+import { encrypt, decrypt } from '@/utils/jsencrypt'
 const userStore = useUserStore()
 const centerDialogVisible = ref(false)
 const isCreate = ref(false)
@@ -174,11 +175,13 @@ const Querydata = {
     cellphone: null
 }
 const { UserList, totalCount, RoleList, DepartmentList } = storeToRefs(userStore)
-
+const fetchUserList = () => {
+    userStore.FetchGetUserList(Querydata)// 获取用户列表
+    userStore.FetchGetRoleList()// 获取角色列表
+    userStore.FetchGetDepartmentList()// 获取部门列表
+}
 onMounted(() => {
-    userStore.FetchGetUserList(Querydata)
-    userStore.FetchGetRoleList()
-    userStore.FetchGetDepartmentList()
+    fetchUserList()
 })
 
 const EditUserData = (row: any) => {
@@ -204,14 +207,14 @@ const handleSizeChange = (size: number) => {
     Querydata.offset = (currentPage.value - 1) * pageSize.value;
     Querydata.size = pageSize.value;
 
-    userStore.FetchGetUserList(Querydata)
+    fetchUserList(); // 调用 fetchUserList 更新数据
 };
 
 const handleCurrentChange = (page: number) => {
     currentPage.value = page;
     Querydata.offset = (currentPage.value - 1) * pageSize.value;
     Querydata.size = pageSize.value;
-    userStore.FetchGetUserList(Querydata)
+    fetchUserList(); // 调用 fetchUserList 更新数据
 };
 const handleQuery = () => {
     if (queryParams.value.name === '' && queryParams.value.cellphone === null) {
@@ -224,7 +227,7 @@ const handleQuery = () => {
     }
     Querydata.name = queryParams.value.name
     Querydata.cellphone = queryParams.value.cellphone
-    userStore.FetchGetUserList(Querydata)
+    fetchUserList()
     if (UserList.value.length > 0) {
         ElMessage({
             showClose: true,
@@ -269,6 +272,7 @@ const entercenterDialogVisible = () => {
     } else {
         formData.value.password = encrypt(formData.value.password)
         userStore.FetchUpdateUser(EditUserID.value, formData.value)
+        console.log('编辑用户', formData.value)
     }
     centerDialogVisible.value = false
 
@@ -301,6 +305,7 @@ const entercenterDialogVisible = () => {
 
 
     .actions {
+        // display: flex;
         margin-top: -18px;
 
         .tex {

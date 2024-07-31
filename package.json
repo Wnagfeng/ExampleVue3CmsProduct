@@ -15,6 +15,7 @@
   "dependencies": {
     "countup.js": "^2.8.0",
     "crypto-js": "^4.2.0",
+    "dayjs": "^1.11.7",
     "echarts": "^5.4.2",
     "element-plus": "^2.7.7",
     "jsencrypt": "^3.0.0-rc.1",
