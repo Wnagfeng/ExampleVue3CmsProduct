@@ -2,6 +2,8 @@ import wfrequest from "../index";
 import type { QueryData, GetUserListResonse, DelteUserResonse, QueryRoleData, ICreateUser, ICreateUserResonse } from '@/types/user.type'
 import type { GetRoleLisrResponse } from '@/types/role.type'
 import type { GetDepartmentListResponse } from '@/types/department.typs'
+
+
 export function GetUserList(QueryData?: QueryData) {
     return wfrequest.post<GetUserListResonse>({
         url: "/user/list",
