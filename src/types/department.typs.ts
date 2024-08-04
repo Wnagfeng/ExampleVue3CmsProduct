@@ -7,9 +7,13 @@ export interface DepartmentList {
     createAt: string
     updateAt: string
 }
+export interface Data {
+    totalCount: number
+    data: DepartmentList[]
+}
+
 export interface GetDepartmentListResponse {
     code: number
-    totalCount: number
     message: string
     data: DepartmentList[]
 }

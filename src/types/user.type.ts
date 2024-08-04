@@ -38,7 +38,7 @@ export interface QueryRoleData {
 export interface ICreateUser {
     username: string;
     realname: string;
-    password: string | boolean;
+    password?: string | boolean;
     cellphone?: string;
     roleid?: string;
     departmentid?: string;

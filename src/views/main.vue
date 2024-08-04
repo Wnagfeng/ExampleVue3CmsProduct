@@ -25,7 +25,7 @@ const isFold = ref(false);
 const router = useRouter()
 const handelFold = (flageFlod: boolean) => {
     isFold.value = flageFlod;
-    console.log("fold", flageFlod);
+
 }
 onMounted(async () => {
     // 判断当前token是否过期
@@ -38,8 +38,7 @@ onMounted(async () => {
         })
         router.push("/login")
     }
-    // console.log(loadLocalRouters())
-    // console.log("mounted");
+
 });
 </script>
 

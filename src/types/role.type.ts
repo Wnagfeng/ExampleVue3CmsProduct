@@ -8,10 +8,8 @@ export interface RoleList {
 
 export interface GetRoleLisrResponse {
     code: number
-    res: {
-        data: RoleList[]
-        totalCount: number
-    }
+    data: RoleList[]
+    totalCount: number
 }
 
 export interface QueryRoleData {

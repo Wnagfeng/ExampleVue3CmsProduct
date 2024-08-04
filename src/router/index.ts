@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import main from "@/views/main.vue";
 import { LOGIN_TOKEN } from '@/global/constants'
 import { ElMessage } from 'element-plus';
-
+import { fristRouterUrl } from '@/utils/map-menus'
 const routes = [
   {
     path: "/main",
@@ -17,44 +17,7 @@ const routes = [
   {
     path: "/main",
     name: "main",
-    component: main,
-    children: [
-      {
-        path: '/main/analysis/dashboard',
-        name: 'dashboard',
-        component: () => import("@/views/analysis/dashboard/dashboard.vue"),
-      },
-      {
-        path: '/main/system/user',
-        name: 'user',
-        component: () => import("@/views/system/user/user.vue"),
-      },
-      {
-        path: '/main/system/role',
-        name: 'role',
-        component: () => import("@/views/system/role/role.vue"),
-      },
-      {
-        path: '/main/system/menu',
-        name: 'menu',
-        component: () => import("@/views/system/menu/menu.vue"),
-      },
-      {
-        path: '/main/system/department',
-        name: 'department',
-        component: () => import("@/views/system/department/department.vue"),
-      },
-      {
-        path: '/main/product/category',
-        name: 'category',
-        component: () => import("@/views/product/category/category.vue"),
-      },
-      {
-        path: '/main/product/goods',
-        name: 'goods',
-        component: () => import("@/views/product/goods/goods.vue"),
-      }
-    ]
+    component: main
   },
   {
     path: "/login",
@@ -72,15 +35,9 @@ const routes = [
     component: () => import("@/views/pages/reset-pwd.vue")
   },
   {
-    path: "/403",
-    name: "403",
-    component: () => import("@/views/pages/403.vue")
-  },
-  {
-    path: "/404",
-    name: "404",
-    component: () => import("@/views/pages/404.vue")
-  },
+    path: '/:pathMatch(.*)',
+    component: () => import('@/views/pages/403.vue')
+  }
 ];
 
 
@@ -98,6 +55,9 @@ router.beforeEach(async (to) => {
       type: 'error',
     })
     return '/login'
+  }
+  if (to.path === '/main') {
+    return fristRouterUrl?.url
   }
 })
 

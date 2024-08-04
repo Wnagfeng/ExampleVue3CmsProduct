@@ -272,7 +272,7 @@ const entercenterDialogVisible = () => {
     } else {
         formData.value.password = encrypt(formData.value.password)
         userStore.FetchUpdateUser(EditUserID.value, formData.value)
-        console.log('编辑用户', formData.value)
+
     }
     centerDialogVisible.value = false
 

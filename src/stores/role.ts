@@ -27,13 +27,13 @@ export const useRoleStore = defineStore('RoleStore', {
     actions: {
         async FetchGetRoleList(QueryData?: QueryRoleData) {
             const res = await GetRoleList(QueryData)
-            this.RoleList = res.res.data
-            this.totalCount = res.res.totalCount
+            this.RoleList = res.data
+            this.totalCount = res.totalCount
         },
         async DeleteRole(id: number) {
-            console.log(id)
+  
             const res = await DeleteRole(id)
-            console.log(res)
+    
             if (res.code === 200) {
                 ElMessage({
                     showClose: true,
@@ -53,7 +53,7 @@ export const useRoleStore = defineStore('RoleStore', {
         async FetchGetMenuList() {
             const res = await GetMenuList()
             this.MenuListData = res.data
-            console.log(res)
+
         },
         async FetchGetRoleForId(id: number) {
             const res = await GetRoleForId(id)
@@ -78,7 +78,7 @@ export const useRoleStore = defineStore('RoleStore', {
                     type: 'error',
                 })
             }
-            console.log(res)
+  
         }
     }
 

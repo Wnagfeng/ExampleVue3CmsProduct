@@ -13,7 +13,8 @@ interface Istate {
     queryData: {
         offset: number,
         size: number
-    }
+    },
+
 }
 export const useUserStore = defineStore('userStore', {
     state: (): Istate => ({
@@ -24,13 +25,14 @@ export const useUserStore = defineStore('userStore', {
         queryData: {
             offset: 0,
             size: 10
-        }
+        },
+
     }),
     actions: {
         async FetchGetUserList(Quertdata?: QueryData) {
             3
             const res = await GetUserList(Quertdata)
-            console.log("userList", res)
+  
             this.UserList = res.data
             this.totalCount = res.totalCount
         },
@@ -48,10 +50,12 @@ export const useUserStore = defineStore('userStore', {
         },
         async FetchGetRoleList() {
             const res = await GetRoleList()
-            this.RoleList = res.res
+
+            this.RoleList = res.data
         },
         async FetchGetDepartmentList() {
             const res = await GetDepartmentList()
+
             this.DepartmentList = res.data
         },
         async FetchCreateUser(data: ICreateUser) {
@@ -71,7 +75,7 @@ export const useUserStore = defineStore('userStore', {
                     type: 'error',
                 })
             }
-            console.log(res)
+  
         },
         async FetchUpdateUser(id: number, data: ICreateUser) {
             const res = await UpdateUser(id, data)
@@ -84,7 +88,7 @@ export const useUserStore = defineStore('userStore', {
                     type: 'success',
                 })
             }
-            console.log(res)
+    
         }
     }
 

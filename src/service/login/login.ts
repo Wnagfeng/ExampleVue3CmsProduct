@@ -18,3 +18,8 @@ export function testLogin() {
         url: "/testlogin"
     })
 }
+export function GetRoleMenuList(id: number) {
+    return wfrequest.get({
+        url: "/role/" + id + "/menu"
+    })
+}

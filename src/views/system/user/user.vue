@@ -278,6 +278,8 @@ const entercenterDialogVisible = () => {
         userStore.FetchCreateUser(formData.value)
     } else {
         formData.value.password = encrypt(formData.value.password)
+        // 删除password属性
+        delete (formData.value as Partial<IformData>).password;
         userStore.FetchUpdateUser(EditUserID.value, formData.value)
     }
     centerDialogVisible.value = false
